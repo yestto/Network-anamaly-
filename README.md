@@ -109,9 +109,16 @@ Note*- The above code will setup all the required dependencies for you. Tested o
 
 You are now ready to train the models. I recommend to also browse through notebooks folder to understand the workflow a bit better.
 
-## 2. Data-Exploration:
+## 2. Notebook Workflow:
 
-It is very important to understand the data before the model is constructed. You can go through the notbook DataExploration inside notebooks folder to check how the exploration was done and how data looks like.
+The project workflow is now consolidated into two end-to-end notebooks in the `notebooks/` folder:
+
+- `ML_Anomaly_Detection.ipynb` → classical ML anomaly detection (Isolation Forest, LOF, One-Class SVM)
+- `DL_Anomaly_Detection.ipynb` → AutoEncoder + latent representation + Logistic Regression
+- `docs/ML_vs_DL_Comparison.md` → side-by-side technical comparison of ML vs DL approaches, metrics, trade-offs, and deployment guidance
+- `docs/Main_CLI_Guide.md` → dedicated guide for `main.py` (what it does, checkpoints, commands, and outputs)
+
+Both notebooks automatically download and use the **NSL-KDD** dataset and include preprocessing, training, evaluation, and artifact saving.
 
 Some highlights from the notebook and how data exploration can benefit you in model creation is shown below.
 
@@ -124,22 +131,28 @@ Some highlights from the notebook and how data exploration can benefit you in mo
 
 ## Train Dataset:
 
-Instructions for training on your own Dataset is shown in the notebook below. 
+Instructions for training are available in the notebooks below.
 
 Jupyter Notebook:
 
-``` jupyter notebook notebooks/Model_Training.ipynb  ```
+``` jupyter notebook notebooks/ML_Anomaly_Detection.ipynb ```
+
+``` jupyter notebook notebooks/DL_Anomaly_Detection.ipynb ```
  
 Running from a Terminal:
 
 ``` python main.py --help ```
 
-Sample training command, I assume that the csv files are stored inside data folder of the root project directory & the command is run from root_dir
+Recommended CLI workflow (run from project root):
 
 ```shell
+python main.py download-data --data_dir ./data
 
-python main.py --data_path data/data.csv --mode train
+# Train classical ML models (Isolation Forest, LOF, One-Class SVM)
+python main.py train-ml --train_path ./data/KDDTrain+.txt --test_path ./data/KDDTest+.txt --output_dir ./checkpoints/ml_models_major
 
+# Train deep-learning pipeline (AutoEncoder + latent classifier)
+python main.py train-dl --train_path ./data/KDDTrain+.txt --test_path ./data/KDDTest+.txt --output_dir ./checkpoints/autoencoder_major
 
 ```
          
@@ -149,12 +162,16 @@ python main.py --data_path data/data.csv --mode train
 Sample test command from root_dir 
 
 ```shell
-
-python main.py --data_path data/test.csv --mode test
-
+python main.py test-ml --input_path ./data/KDDTest+.txt --model_dir ./checkpoints/ml_models_major --output_csv ./ml_test_predictions.csv
+python main.py test-dl --input_path ./data/KDDTest+.txt --model_dir ./checkpoints/autoencoder_major --output_csv ./dl_test_predictions.csv
 ```
 
-The above test command will take the test csv and pass through the autoencoder for creating latent representation of the test data, which then be passed through to the trained linear regression classifier
+Legacy compatibility is still available:
+
+```shell
+python main.py --mode train --data_path ./data/KDDTrain+.txt --ckpt_path ./checkpoints --model_name autoencoder
+python main.py --mode test --data_path ./data/KDDTest+.txt --ckpt_path ./checkpoints --model_name autoencoder
+```
          
 ## Visualizing Data Relationship with TSNE:
 
