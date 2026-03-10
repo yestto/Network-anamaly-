@@ -1,0 +1,9 @@
+{
+  "model_profile": "balanced",
+  "workflow_mode": "interactive",
+  "commit_docs": true,
+  "search_gitignored": false,
+  "git": {
+    "branching_strategy": "none"
+  }
+}

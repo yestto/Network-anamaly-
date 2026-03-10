@@ -1,0 +1,16 @@
+{
+  "dataset": "NSL-KDD",
+  "target_col": "label",
+  "drop_cols": [
+    "difficulty"
+  ],
+  "label_mapping": {
+    "normal": 0,
+    "anomaly": 1
+  },
+  "artifacts": {
+    "autoencoder": "unsw_nb15_autoencoder.keras",
+    "latent_classifier": "latent_logreg_classifier.joblib",
+    "threshold": "reconstruction_threshold.json"
+  }
+}

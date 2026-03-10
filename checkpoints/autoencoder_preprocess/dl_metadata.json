@@ -1,0 +1,8 @@
+{
+  "dataset": "NSL-KDD",
+  "label_mapping": {
+    "normal": 0,
+    "attack": 1
+  },
+  "classifier": "LogisticRegression on latent vectors"
+}

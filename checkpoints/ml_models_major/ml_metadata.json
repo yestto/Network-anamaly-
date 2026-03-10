@@ -1,0 +1,43 @@
+{
+  "dataset": "NSL-KDD",
+  "label_mapping": {
+    "normal": 0,
+    "attack": 1
+  },
+  "models": [
+    "isolation_forest",
+    "local_outlier_factor",
+    "oneclass_svm"
+  ],
+  "best_model": "Isolation Forest",
+  "best_threshold": -0.10984781442392194,
+  "summary_metrics": [
+    {
+      "model": "Isolation Forest",
+      "accuracy": 0.8049148332150461,
+      "precision": 0.9718089271730619,
+      "recall": 0.6769266734200888,
+      "f1": 0.7979974278890318,
+      "roc_auc": 0.9371437842031822,
+      "pr_auc": 0.9526668055426291
+    },
+    {
+      "model": "Local Outlier Factor",
+      "accuracy": 0.7661462029808375,
+      "precision": 0.8246457707170459,
+      "recall": 0.7483051507831372,
+      "f1": 0.7846229267096985,
+      "roc_auc": 0.8546848221238137,
+      "pr_auc": 0.8228147497527558
+    },
+    {
+      "model": "One-Class SVM",
+      "accuracy": 0.7837562100780695,
+      "precision": 0.9202577101816646,
+      "recall": 0.6789527000701316,
+      "f1": 0.7813999372225461,
+      "roc_auc": 0.8669575552287574,
+      "pr_auc": 0.8764925629620506
+    }
+  ]
+}

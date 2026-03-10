@@ -1,0 +1,45 @@
+{
+  "dataset": "NSL-KDD",
+  "label_mapping": {
+    "normal": 0,
+    "attack": 1
+  },
+  "threshold_percentile": 95.0,
+  "reconstruction_threshold": 0.04895499110979099,
+  "autoencoder_metrics": {
+    "accuracy": 0.861958836053939,
+    "precision": 0.9365849276924458,
+    "recall": 0.8125146107691109,
+    "f1": 0.870149378285905,
+    "roc_auc": 0.9562667688578954,
+    "pr_auc": 0.9475160947207,
+    "confusion_matrix": [
+      [
+        9005,
+        706
+      ],
+      [
+        2406,
+        10427
+      ]
+    ]
+  },
+  "latent_classifier_metrics": {
+    "accuracy": 0.8059350603264727,
+    "precision": 0.9597738638834529,
+    "recall": 0.6879139717914751,
+    "f1": 0.801416186282965,
+    "roc_auc": 0.906094592381077,
+    "pr_auc": 0.9359013337940059,
+    "confusion_matrix": [
+      [
+        9341,
+        370
+      ],
+      [
+        4005,
+        8828
+      ]
+    ]
+  }
+}
