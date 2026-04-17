@@ -115,8 +115,10 @@ The project workflow is now consolidated into two end-to-end notebooks in the `n
 
 - `ML_Anomaly_Detection.ipynb` → classical ML anomaly detection (Isolation Forest, LOF, One-Class SVM)
 - `DL_Anomaly_Detection.ipynb` → AutoEncoder + latent representation + Logistic Regression
+- `DL_Major_Project_Gated_Ensemble.ipynb` → major-project DL method with calibrated gated ensemble and robustness analysis
 - `docs/ML_vs_DL_Comparison.md` → side-by-side technical comparison of ML vs DL approaches, metrics, trade-offs, and deployment guidance
 - `docs/Main_CLI_Guide.md` → dedicated guide for `main.py` (what it does, checkpoints, commands, and outputs)
+- `docs/Publication_Playbook.md` -> reproducible publication protocol (multi-seed significance + optional external validation)
 
 Both notebooks automatically download and use the **NSL-KDD** dataset and include preprocessing, training, evaluation, and artifact saving.
 
@@ -154,6 +156,12 @@ python main.py train-ml --train_path ./data/KDDTrain+.txt --test_path ./data/KDD
 # Train deep-learning pipeline (AutoEncoder + latent classifier)
 python main.py train-dl --train_path ./data/KDDTrain+.txt --test_path ./data/KDDTest+.txt --output_dir ./checkpoints/autoencoder_major
 
+# Train production-grade hybrid ensemble
+python main.py train-prod --train_path ./data/KDDTrain+.txt --test_path ./data/KDDTest+.txt --output_dir ./checkpoints/production_hybrid
+
+# Publication-grade evaluation (multi-seed + paired significance)
+python main.py eval-publication --train_path ./data/KDDTrain+.txt --test_path ./data/KDDTest+.txt --output_dir ./checkpoints/autoencoder_major_project_gated --seeds 7,21,42,84,126 --epochs 30 --sample_fraction 1.0
+
 ```
          
   
@@ -164,6 +172,7 @@ Sample test command from root_dir
 ```shell
 python main.py test-ml --input_path ./data/KDDTest+.txt --model_dir ./checkpoints/ml_models_major --output_csv ./ml_test_predictions.csv
 python main.py test-dl --input_path ./data/KDDTest+.txt --model_dir ./checkpoints/autoencoder_major --output_csv ./dl_test_predictions.csv
+python main.py test-prod --input_path ./data/KDDTest+.txt --model_dir ./checkpoints/production_hybrid --output_csv ./prod_test_predictions.csv
 ```
 
 Legacy compatibility is still available:

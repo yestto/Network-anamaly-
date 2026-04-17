@@ -1,0 +1,8 @@
+{
+  "proto": "protocol_type",
+  "service": "service",
+  "state": "flag",
+  "sbytes": "src_bytes",
+  "dbytes": "dst_bytes",
+  "dur": "duration"
+}

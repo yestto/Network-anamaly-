@@ -18,12 +18,15 @@ Think of it as:
 
 ## 2) What does `main.py` do internally?
 
-At a high level it provides 5 command groups:
+At a high level it provides 8 command groups:
 - `download-data` → downloads NSL-KDD files
 - `train-ml` → trains classical ML anomaly models
 - `test-ml` → runs ML inference using saved artifacts
 - `train-dl` → trains deep-learning autoencoder pipeline
 - `test-dl` → runs DL inference using saved artifacts
+- `train-prod` → trains production-grade hybrid ensemble (denoising AE + latent LR + latent IF + calibrated meta stack)
+- `test-prod` → runs production hybrid inference with tuned and conformal outputs
+- `eval-publication` -> runs multi-seed publication-grade evaluation for DL gated ensemble (paired significance + attack-type analysis + optional external validation)
 
 It also keeps legacy compatibility:
 - `--mode train`
@@ -80,7 +83,35 @@ Meaning:
 - preprocessing files = same transform pipeline as training
 - `dl_metadata.json` = threshold + metrics + label mapping
 
-## 6) Required dataset format
+## 6) Production checkpoint contents
+
+Default folder:
+- `checkpoints/production_hybrid/`
+
+Typical files:
+- `prod_autoencoder.keras`
+- `prod_latent_logreg.joblib`
+- `prod_latent_isolation_forest.joblib`
+- `prod_meta_classifier.joblib`
+- `prod_recon_isotonic.joblib`
+- `prod_latent_logreg_isotonic.joblib`
+- `prod_latent_if_isotonic.joblib`
+- `prod_thresholds.json`
+- `prod_metadata.json`
+- `prod_monitor_baseline.json`
+- `standard_scaler.joblib`
+- `ordinal_encoder.joblib`
+- `feature_names.joblib`
+- `categorical_columns.joblib`
+
+Meaning:
+- base detectors model reconstruction and latent-space anomaly patterns
+- isotonic models calibrate component scores into probability-like values
+- meta classifier combines calibrated components into production anomaly probability
+- thresholds include both tuned threshold and conformal threshold
+- monitor baseline captures reference statistics used for drift monitoring
+
+## 7) Required dataset format
 
 `main.py` uses NSL-KDD structure.
 
@@ -95,7 +126,7 @@ Binary target mapping used by pipeline:
 - `normal -> 0`
 - `any attack label -> 1`
 
-## 7) Commands to run (recommended)
+## 8) Commands to run (recommended)
 
 Run from project root.
 
@@ -139,7 +170,37 @@ Output CSV columns added:
 - `reconstruction_error`
 - `latent_clf_score`
 
-## 8) Legacy commands (still supported)
+### Step 6: Train production hybrid
+```bash
+python main.py train-prod --train_path ./data/KDDTrain+.txt --test_path ./data/KDDTest+.txt --output_dir ./checkpoints/production_hybrid
+```
+Output:
+- production checkpoint folder with calibrated hybrid artifacts + thresholds + monitor baseline
+
+### Step 7: Test production hybrid
+```bash
+python main.py test-prod --input_path ./data/KDDTest+.txt --model_dir ./checkpoints/production_hybrid --output_csv ./prod_test_predictions.csv
+```
+Output CSV columns added:
+- `pred_prod_tuned`
+- `pred_prod_conformal`
+- `prod_anomaly_probability`
+- `dominant_detector`
+- `risk_tier`
+
+### Step 8: Publication-grade evaluation
+```bash
+python main.py eval-publication --train_path ./data/KDDTrain+.txt --test_path ./data/KDDTest+.txt --output_dir ./checkpoints/autoencoder_major_project_gated --seeds 7,21,42,84,126 --epochs 30 --sample_fraction 1.0
+```
+Outputs:
+- `publication_seed_metrics.csv`
+- `publication_paired_significance.csv`
+- `publication_attack_type_by_seed.csv`
+- `publication_attack_type_summary.csv`
+- `publication_report.json`
+- optional external metrics files when `--external_path` is provided
+
+## 9) Legacy commands (still supported)
 
 ```bash
 python main.py --mode train --data_path ./data/KDDTrain+.txt --ckpt_path ./checkpoints --model_name autoencoder
@@ -148,18 +209,25 @@ python main.py --mode test --data_path ./data/KDDTest+.txt --ckpt_path ./checkpo
 
 Use modern subcommands for clearer and more controllable runs.
 
-## 9) Typical output files after full run
+## 10) Typical output files after full run
 
 Generated prediction files:
 - `ml_test_predictions.csv`
 - `dl_test_predictions.csv`
+- `prod_test_predictions.csv`
 - `ml_vs_dl_predictions.csv` (if merged for side-by-side comparison)
 
 Generated metadata files:
 - `checkpoints/ml_models_major/ml_metadata.json`
 - `checkpoints/autoencoder_major/dl_metadata.json`
+- `checkpoints/production_hybrid/prod_metadata.json`
+- `checkpoints/production_hybrid/prod_thresholds.json`
+- `checkpoints/production_hybrid/prod_monitor_baseline.json`
+- `checkpoints/autoencoder_major_project_gated/publication_seed_metrics.csv`
+- `checkpoints/autoencoder_major_project_gated/publication_paired_significance.csv`
+- `checkpoints/autoencoder_major_project_gated/publication_report.json`
 
-## 10) Quick troubleshooting
+## 11) Quick troubleshooting
 
 - Error: model file not found in `test-ml`
   - Ensure `train-ml` ran successfully first
@@ -171,11 +239,19 @@ Generated metadata files:
 - Prediction output looks wrong
   - Verify inference uses matching checkpoint folder from the same training run
 
-## 11) In short
+- `test-prod` cannot find production artifacts
+  - Ensure `train-prod` ran first
+  - Verify `model_dir` points to `checkpoints/production_hybrid`
+
+- `eval-publication` fails with too few normal rows after sampling
+  - Increase `--sample_fraction`
+  - Use fewer seeds for quick dry-runs, then run full seeds for final publication tables
+
+## 12) In short
 
 `main.py` is your production-style runner:
 - download data
-- train ML/DL
+- train ML/DL/production hybrid
 - save checkpoints
 - run inference on new data
 - generate reproducible outputs

@@ -51,6 +51,35 @@ What was done:
 - Generated side-by-side prediction dataset (`ml_vs_dl_predictions.csv`) including agreement flags.
 - Added current-run agreement/disagreement statistics and practical interpretation.
 
+### D) Production-grade hybrid pipeline (new)
+Files:
+- `main.py`
+- `docs/Main_CLI_Guide.md`
+
+What was done:
+- Added two new CLI commands:
+  - `train-prod`
+  - `test-prod`
+- Implemented a production hybrid ensemble architecture:
+  - denoising autoencoder for reconstruction anomaly signal
+  - latent-space Logistic Regression classifier
+  - latent-space Isolation Forest detector
+  - isotonic calibration for all component scores
+  - stacked meta-classifier over calibrated component probabilities
+  - tuned threshold (F1-optimized on holdout calibration subset)
+  - conformal threshold (normal-holdout quantile based)
+- Added production artifact contract:
+  - model files
+  - calibration models
+  - threshold JSON
+  - metadata JSON
+  - monitoring baseline JSON (reference stats)
+- Added production inference output schema including:
+  - tuned and conformal predictions
+  - combined anomaly probability
+  - component probabilities/scores
+  - dominant detector and risk tier
+
 ## 2) main.py modernization
 
 File:
@@ -66,6 +95,8 @@ New state:
   - `test-ml`
   - `train-dl`
   - `test-dl`
+  - `train-prod`
+  - `test-prod`
 - Added NSL-KDD download helper and standardized data handling.
 - Added consistent preprocessing persistence for inference reproducibility:
   - scaler
@@ -117,6 +148,29 @@ Output:
   - `reconstruction_error`
   - `latent_clf_score`
 
+### Production hybrid training
+```bash
+python main.py train-prod --train_path ./data/KDDTrain+.txt --test_path ./data/KDDTest+.txt --output_dir ./checkpoints/production_hybrid --epochs 2 --batch_size 512 --if_estimators 150
+```
+Observed output summary:
+- training completed successfully and produced calibrated hybrid artifacts
+- sample run metrics:
+  - production tuned F1: 0.7599
+  - production conformal F1: 0.8045
+  - production ROC-AUC: 0.9379
+
+### Production hybrid inference
+```bash
+python main.py test-prod --input_path ./data/KDDTest+.txt --model_dir ./checkpoints/production_hybrid --output_csv ./prod_test_predictions.csv
+```
+Output:
+- `prod_test_predictions.csv` created with production columns:
+  - `pred_prod_tuned`
+  - `pred_prod_conformal`
+  - `prod_anomaly_probability`
+  - `dominant_detector`
+  - `risk_tier`
+
 ### ML inference
 ```bash
 python main.py test-ml --input_path ./data/KDDTest+.txt --model_dir ./checkpoints/ml_models_major --output_csv ./ml_test_predictions.csv
@@ -166,7 +220,24 @@ Includes:
 ### Inference outputs
 - `ml_test_predictions.csv`
 - `dl_test_predictions.csv`
+- `prod_test_predictions.csv`
 - `ml_vs_dl_predictions.csv`
+
+### Production artifacts
+Folder:
+- `checkpoints/production_hybrid`
+
+Includes:
+- `prod_autoencoder.keras`
+- `prod_latent_logreg.joblib`
+- `prod_latent_isolation_forest.joblib`
+- `prod_meta_classifier.joblib`
+- `prod_recon_isotonic.joblib`
+- `prod_latent_logreg_isotonic.joblib`
+- `prod_latent_if_isotonic.joblib`
+- `prod_thresholds.json`
+- `prod_metadata.json`
+- `prod_monitor_baseline.json`
 
 ## 5) Current run snapshot (from generated metadata)
 
