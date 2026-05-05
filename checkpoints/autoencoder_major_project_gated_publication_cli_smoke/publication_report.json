@@ -1,0 +1,360 @@
+{
+  "pipeline_name": "Publication Evaluation - DL Gated Ensemble",
+  "created_at_utc": "2026-04-17T05:37:06.561524+00:00",
+  "dataset": "NSL-KDD",
+  "train_path": ".\\data\\KDDTrain+.txt",
+  "test_path": ".\\data\\KDDTest+.txt",
+  "config": {
+    "seeds": [
+      7
+    ],
+    "sample_fraction": 0.1,
+    "epochs": 1,
+    "batch_size": 512,
+    "latent_dim": 32,
+    "normal_val_fraction": 0.2,
+    "latent_cal_fraction": 0.2,
+    "reconstruction_quantile": 0.95,
+    "latent_quantile": 0.95,
+    "alpha_conformal": 0.05,
+    "target_fprs": [
+      0.05
+    ],
+    "external_path": null,
+    "external_label_column": "label",
+    "external_mapping_json": null
+  },
+  "seed_metrics_mean": {
+    "seed": 7.0,
+    "train_rows_seed": 12597.0,
+    "ae_f1": 0.571579895132673,
+    "ae_precision": 0.8921957671957672,
+    "ae_recall": 0.4204784539858178,
+    "ae_roc_auc": 0.8683720810950215,
+    "ae_pr_auc": 0.8611419947825827,
+    "ae_seen_recall": 0.5015963888583067,
+    "ae_unseen_recall": 0.224,
+    "ae_normal_fpr": 0.0671403562969828,
+    "latent_f1": 0.7788114161849711,
+    "latent_precision": 0.9261089034475352,
+    "latent_recall": 0.6719395308969064,
+    "latent_roc_auc": 0.8762696900287392,
+    "latent_pr_auc": 0.9200010554669528,
+    "gated_or_f1": 0.8240664972651708,
+    "gated_or_precision": 0.9211438474870017,
+    "gated_or_recall": 0.7454998831138471,
+    "gated_or_roc_auc": 0.8974257988381967,
+    "gated_or_pr_auc": 0.9028314286717529,
+    "gated_or_seen_recall": 0.8521413629857977,
+    "gated_or_unseen_recall": 0.4872,
+    "gated_or_normal_fpr": 0.08433734939759036,
+    "gated_conformal_f1": 0.7727933163821286,
+    "gated_conformal_precision": 0.9259057773909259,
+    "gated_conformal_recall": 0.6631341073794125,
+    "gated_conformal_roc_auc": 0.8974257988381967,
+    "gated_conformal_pr_auc": 0.9028314286717529,
+    "gated_conformal_normal_fpr": 0.07012666048810627,
+    "delta_f1_gated_or_minus_ae": 0.25248660213249774,
+    "delta_recall_gated_or_minus_ae": 0.3250214291280293,
+    "delta_seen_recall_gated_or_minus_ae": 0.35054497412749097,
+    "delta_unseen_recall_gated_or_minus_ae": 0.2632,
+    "reconstruction_threshold": 1.056335568837224,
+    "latent_probability_threshold": 0.5091708358722359,
+    "conformal_score_threshold": 1.446452211865071,
+    "gated_or_recall_at_fpr_0_050": 0.6631341073794125,
+    "gated_or_actual_fpr_at_fpr_0_050": 0.07012666048810627
+  },
+  "seed_metrics_std": {
+    "seed": NaN,
+    "train_rows_seed": NaN,
+    "ae_f1": NaN,
+    "ae_precision": NaN,
+    "ae_recall": NaN,
+    "ae_roc_auc": NaN,
+    "ae_pr_auc": NaN,
+    "ae_seen_recall": NaN,
+    "ae_unseen_recall": NaN,
+    "ae_normal_fpr": NaN,
+    "latent_f1": NaN,
+    "latent_precision": NaN,
+    "latent_recall": NaN,
+    "latent_roc_auc": NaN,
+    "latent_pr_auc": NaN,
+    "gated_or_f1": NaN,
+    "gated_or_precision": NaN,
+    "gated_or_recall": NaN,
+    "gated_or_roc_auc": NaN,
+    "gated_or_pr_auc": NaN,
+    "gated_or_seen_recall": NaN,
+    "gated_or_unseen_recall": NaN,
+    "gated_or_normal_fpr": NaN,
+    "gated_conformal_f1": NaN,
+    "gated_conformal_precision": NaN,
+    "gated_conformal_recall": NaN,
+    "gated_conformal_roc_auc": NaN,
+    "gated_conformal_pr_auc": NaN,
+    "gated_conformal_normal_fpr": NaN,
+    "delta_f1_gated_or_minus_ae": NaN,
+    "delta_recall_gated_or_minus_ae": NaN,
+    "delta_seen_recall_gated_or_minus_ae": NaN,
+    "delta_unseen_recall_gated_or_minus_ae": NaN,
+    "reconstruction_threshold": NaN,
+    "latent_probability_threshold": NaN,
+    "conformal_score_threshold": NaN,
+    "gated_or_recall_at_fpr_0_050": NaN,
+    "gated_or_actual_fpr_at_fpr_0_050": NaN
+  },
+  "paired_significance": [
+    {
+      "metric": "f1",
+      "baseline_mean": 0.571579895132673,
+      "proposed_mean": 0.8240664972651708,
+      "delta_mean": 0.25248660213249774,
+      "delta_std": 0.0,
+      "direction": "higher_better",
+      "better_seed_ratio": 1.0,
+      "ttest_pvalue": NaN,
+      "wilcoxon_pvalue": NaN
+    },
+    {
+      "metric": "recall",
+      "baseline_mean": 0.4204784539858178,
+      "proposed_mean": 0.7454998831138471,
+      "delta_mean": 0.3250214291280293,
+      "delta_std": 0.0,
+      "direction": "higher_better",
+      "better_seed_ratio": 1.0,
+      "ttest_pvalue": NaN,
+      "wilcoxon_pvalue": NaN
+    },
+    {
+      "metric": "precision",
+      "baseline_mean": 0.8921957671957672,
+      "proposed_mean": 0.9211438474870017,
+      "delta_mean": 0.028948080291234524,
+      "delta_std": 0.0,
+      "direction": "higher_better",
+      "better_seed_ratio": 1.0,
+      "ttest_pvalue": NaN,
+      "wilcoxon_pvalue": NaN
+    },
+    {
+      "metric": "seen_recall",
+      "baseline_mean": 0.5015963888583067,
+      "proposed_mean": 0.8521413629857977,
+      "delta_mean": 0.35054497412749097,
+      "delta_std": 0.0,
+      "direction": "higher_better",
+      "better_seed_ratio": 1.0,
+      "ttest_pvalue": NaN,
+      "wilcoxon_pvalue": NaN
+    },
+    {
+      "metric": "unseen_recall",
+      "baseline_mean": 0.224,
+      "proposed_mean": 0.4872,
+      "delta_mean": 0.2632,
+      "delta_std": 0.0,
+      "direction": "higher_better",
+      "better_seed_ratio": 1.0,
+      "ttest_pvalue": NaN,
+      "wilcoxon_pvalue": NaN
+    },
+    {
+      "metric": "normal_fpr",
+      "baseline_mean": 0.0671403562969828,
+      "proposed_mean": 0.08433734939759036,
+      "delta_mean": 0.017196993100607558,
+      "delta_std": 0.0,
+      "direction": "lower_better",
+      "better_seed_ratio": 0.0,
+      "ttest_pvalue": NaN,
+      "wilcoxon_pvalue": NaN
+    }
+  ],
+  "attack_type_summary_top_gain": [
+    {
+      "attack_type": "imap",
+      "count": 1.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.0,
+      "gated_or_recall_mean": 1.0,
+      "delta_recall_mean": 1.0,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "httptunnel",
+      "count": 133.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.10526315789473684,
+      "gated_or_recall_mean": 0.9548872180451128,
+      "delta_recall_mean": 0.849624060150376,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "apache2",
+      "count": 737.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.0,
+      "gated_or_recall_mean": 0.55359565807327,
+      "delta_recall_mean": 0.55359565807327,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "smurf",
+      "count": 665.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.43609022556390975,
+      "gated_or_recall_mean": 0.9774436090225563,
+      "delta_recall_mean": 0.5413533834586466,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "neptune",
+      "count": 4657.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.4734807816190681,
+      "gated_or_recall_mean": 1.0,
+      "delta_recall_mean": 0.526519218380932,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "phf",
+      "count": 2.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.5,
+      "gated_or_recall_mean": 1.0,
+      "delta_recall_mean": 0.5,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "saint",
+      "count": 319.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.6363636363636364,
+      "gated_or_recall_mean": 0.9686520376175548,
+      "delta_recall_mean": 0.33228840125391845,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "warezmaster",
+      "count": 944.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.5328389830508474,
+      "gated_or_recall_mean": 0.8326271186440678,
+      "delta_recall_mean": 0.2997881355932204,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "teardrop",
+      "count": 12.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.6666666666666666,
+      "gated_or_recall_mean": 0.9166666666666666,
+      "delta_recall_mean": 0.25,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "processtable",
+      "count": 685.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.016058394160583942,
+      "gated_or_recall_mean": 0.21897810218978103,
+      "delta_recall_mean": 0.2029197080291971,
+      "delta_recall_std": NaN
+    }
+  ],
+  "attack_type_summary_top_drop": [
+    {
+      "attack_type": "xsnoop",
+      "count": 4.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.5,
+      "gated_or_recall_mean": 0.5,
+      "delta_recall_mean": 0.0,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "xlock",
+      "count": 9.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.4444444444444444,
+      "gated_or_recall_mean": 0.4444444444444444,
+      "delta_recall_mean": 0.0,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "worm",
+      "count": 2.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.0,
+      "gated_or_recall_mean": 0.0,
+      "delta_recall_mean": 0.0,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "udpstorm",
+      "count": 2.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.0,
+      "gated_or_recall_mean": 0.0,
+      "delta_recall_mean": 0.0,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "sqlattack",
+      "count": 2.0,
+      "seeds": 1,
+      "ae_recall_mean": 1.0,
+      "gated_or_recall_mean": 1.0,
+      "delta_recall_mean": 0.0,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "sendmail",
+      "count": 14.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.7142857142857143,
+      "gated_or_recall_mean": 0.7142857142857143,
+      "delta_recall_mean": 0.0,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "rootkit",
+      "count": 13.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.15384615384615385,
+      "gated_or_recall_mean": 0.15384615384615385,
+      "delta_recall_mean": 0.0,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "nmap",
+      "count": 73.0,
+      "seeds": 1,
+      "ae_recall_mean": 1.0,
+      "gated_or_recall_mean": 1.0,
+      "delta_recall_mean": 0.0,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "loadmodule",
+      "count": 2.0,
+      "seeds": 1,
+      "ae_recall_mean": 1.0,
+      "gated_or_recall_mean": 1.0,
+      "delta_recall_mean": 0.0,
+      "delta_recall_std": NaN
+    },
+    {
+      "attack_type": "mailbomb",
+      "count": 293.0,
+      "seeds": 1,
+      "ae_recall_mean": 0.0,
+      "gated_or_recall_mean": 0.0,
+      "delta_recall_mean": 0.0,
+      "delta_recall_std": NaN
+    }
+  ],
+  "external_metrics_by_seed": []
+}

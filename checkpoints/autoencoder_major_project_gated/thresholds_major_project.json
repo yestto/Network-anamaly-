@@ -1,0 +1,5 @@
+{
+  "reconstruction_threshold": 0.04895696353528703,
+  "latent_probability_threshold": 0.3866552944092658,
+  "conformal_alpha": 0.05
+}

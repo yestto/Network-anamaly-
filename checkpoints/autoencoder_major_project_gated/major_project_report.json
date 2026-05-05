@@ -1,0 +1,74 @@
+{
+  "project": "DL Major Project - Zero-Day Aware Gated Ensemble",
+  "dataset": "NSL-KDD",
+  "problem": "distribution shift and unseen attack robustness",
+  "baseline_ae": {
+    "detector": "AE Reconstruction",
+    "accuracy": 0.861958836053939,
+    "precision": 0.9365849276924458,
+    "recall": 0.8125146107691109,
+    "f1": 0.870149378285905,
+    "roc_auc": 0.9562667688578954,
+    "pr_auc": 0.9475160947207
+  },
+  "baseline_latent": {
+    "detector": "Latent LR",
+    "accuracy": 0.8059350603264727,
+    "precision": 0.9597738638834529,
+    "recall": 0.6879139717914751,
+    "f1": 0.801416186282965,
+    "roc_auc": 0.906094592381077,
+    "pr_auc": 0.9359013337940059
+  },
+  "gated_or": {
+    "detector": "Gated OR",
+    "accuracy": 0.8712739531582683,
+    "precision": 0.9211977266943762,
+    "recall": 0.8462557469025169,
+    "f1": 0.88213792543254,
+    "roc_auc": 0.9556338913047285,
+    "pr_auc": 0.9473412860575553
+  },
+  "gated_conformal": {
+    "detector": "Gated Conformal (alpha=0.05)",
+    "accuracy": 0.876818665720369,
+    "precision": 0.95993413830955,
+    "recall": 0.8177355255980675,
+    "f1": 0.883147485798443,
+    "roc_auc": 0.9556338913047285,
+    "pr_auc": 0.9473412860575553
+  },
+  "best_or_ablation": {
+    "rule": "OR",
+    "q": 0.91,
+    "accuracy": 0.8719836763662172,
+    "precision": 0.916436406263083,
+    "recall": 0.8528792955661186,
+    "f1": 0.8835163061026801,
+    "roc_auc": 0.951596233621866,
+    "pr_auc": 0.9447755760748394
+  },
+  "seen_unseen_recall": [
+    {
+      "detector": "AE Reconstruction",
+      "seen_attack_recall": 0.8158097544864031,
+      "unseen_attack_recall": 0.8045333333333333
+    },
+    {
+      "detector": "Latent LR",
+      "seen_attack_recall": 0.7366508862710558,
+      "unseen_attack_recall": 0.5698666666666666
+    },
+    {
+      "detector": "Gated OR",
+      "seen_attack_recall": 0.8627105581856215,
+      "unseen_attack_recall": 0.8064
+    }
+  ],
+  "f1_bootstrap": {
+    "mean_delta": 0.01192545762749825,
+    "ci_low": 0.009954660177832347,
+    "ci_high": 0.014078258216176288,
+    "prob_improvement": 1.0
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "production_tuned_threshold": 0.5753693541419489,
+  "production_conformal_threshold": 0.2418400472573797,
+  "alpha_conformal": 0.05,
+  "reconstruction_score_scaling": {
+    "min": 0.00026279144070143385,
+    "max": 0.8838255571489365
+  },
+  "latent_if_score_scaling": {
+    "min": -0.16171312662596513,
+    "max": 0.17741824596801214
+  }
+}
